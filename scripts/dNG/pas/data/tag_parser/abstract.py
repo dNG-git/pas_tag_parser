@@ -2,7 +2,7 @@
 ##j## BOF
 
 """
-dNG.pas.data.tag_parser.abstract_impl
+dNG.pas.data.tag_parser.Abstract
 """
 """n// NOTE
 ----------------------------------------------------------------------------
@@ -23,10 +23,10 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 NOTE_END //n"""
 
-class direct_abstract_impl(object):
+class Abstract(object):
 #
 	"""
-The OSet parser takes a template string to render the output.
+The abstract parser implements methods to find and process "[tags]".
 
 :author:     direct Netware Group
 :copyright:  (C) direct Netware Group - All rights reserved
@@ -40,7 +40,7 @@ The OSet parser takes a template string to render the output.
 	def __init__(self):
 	#
 		"""
-Constructor __init__(direct_abstract_tag_parser)
+Constructor __init__(Abstract)
 
 :since: v0.1.00
 		"""
@@ -55,7 +55,7 @@ happened.
 	def __del__(self):
 	#
 		"""
-Destructor __del__(direct_handler)
+Destructor __del__(Abstract)
 
 :since: v0.1.00
 		"""
@@ -66,7 +66,7 @@ Destructor __del__(direct_handler)
 	def parser(self, data, data_position = 0, nested_tag_end_position = None):
 	#
 		"""
-Parse for [tags] and calls "parser_check()" for possible hits.
+Parse for "[tags]" and calls "parser_check()" for possible hits.
 
 :param data: Data to be parsed
 :param data_position: Current parser position
