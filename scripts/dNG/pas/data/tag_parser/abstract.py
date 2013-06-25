@@ -52,17 +52,6 @@ happened.
 		"""
 	#
 
-	def __del__(self):
-	#
-		"""
-Destructor __del__(Abstract)
-
-:since: v0.1.00
-		"""
-
-		if (self.log_handler != None): self.log_handler.return_instance()
-	#
-
 	def parser(self, data, data_position = 0, nested_tag_end_position = None):
 	#
 		"""
