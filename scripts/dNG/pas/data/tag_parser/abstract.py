@@ -52,16 +52,15 @@ happened.
 		"""
 	#
 
-	def parser(self, data, data_position = 0, nested_tag_end_position = None):
+	def _parser(self, data, data_position = 0, nested_tag_end_position = None):
 	#
 		"""
-Parse for "[tags]" and calls "parser_check()" for possible hits.
+Parse for "[tags]" and calls "_parser_check()" for possible hits.
 
 :param data: Data to be parsed
 :param data_position: Current parser position
 :param nested_tag_end_position: End position for nested tags 
 
-:access: protected
 :return: (bool) True if replacements happened
 :since:  v0.1.00
 		"""
@@ -82,32 +81,32 @@ Parse for "[tags]" and calls "parser_check()" for possible hits.
 
 		while (data_position > -1):
 		#
-			tag_definition = self.parser_check(data[data_position:])
+			tag_definition = self._parser_check(data[data_position:])
 
 			if (tag_definition == None): data_position += 1
 			else:
 			#
 				tag_length = len(tag_definition['tag'])
-				tag_start_end_position = self.parser_tag_find_end_position(data, data_position + 1 + tag_length)
+				tag_start_end_position = self._parser_tag_find_end_position(data, data_position + 1 + tag_length)
 				tag_end_position = -1
 
 				if (tag_start_end_position > -1):
 				#
-					tag_end_position = self.parser_tag_end_find_position(data, tag_start_end_position, tag_definition['tag_end'])
+					tag_end_position = self._parser_tag_end_find_position(data, tag_start_end_position, tag_definition['tag_end'])
 
 					if (tag_end_position >= 0):
 					#
 						if ("type" not in tag_definition or tag_definition['type'] != "top_down"):
 						#
-							nested_data = self.parser(data, data_position + 1, tag_end_position)
+							nested_data = self._parser(data, data_position + 1, tag_end_position)
 
 							while (nested_data != None):
 							#
 								data = nested_data
-								tag_start_end_position = self.parser_tag_find_end_position(data, data_position + 1)
-								if (tag_start_end_position > -1): tag_end_position = self.parser_tag_end_find_position(data, tag_start_end_position, tag_definition['tag_end'])
+								tag_start_end_position = self._parser_tag_find_end_position(data, data_position + 1)
+								if (tag_start_end_position > -1): tag_end_position = self._parser_tag_end_find_position(data, tag_start_end_position, tag_definition['tag_end'])
 
-								nested_data = self.parser(data, data_position + 1, tag_end_position)
+								nested_data = self._parser(data, data_position + 1, tag_end_position)
 							#
 						#
 						else:
@@ -117,7 +116,7 @@ Parse for "[tags]" and calls "parser_check()" for possible hits.
 
 							while (nested_tag_position >= 0 and nested_tag_position < tag_end_position):
 							#
-								if (self.parser_check(data[nested_tag_position:]) != None): tag_end_position = self.parser_tag_end_find_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
+								if (self._parser_check(data[nested_tag_position:]) != None): tag_end_position = self._parser_tag_end_find_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
 								nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
 							#
 						#
@@ -126,8 +125,8 @@ Parse for "[tags]" and calls "parser_check()" for possible hits.
 
 				if (tag_end_position > -1):
 				#
-					if (self.log_handler != None): self.log_handler.debug("pas.tag_parser found '{0}' at {1:d}".format(tag_definition['tag'], data_position))
-					data = self.parser_change(tag_definition, data, data_position, tag_start_end_position, tag_end_position)
+					if (self.log_handler != None): self.log_handler.debug("pas.TagParser found '{0}' at {1:d}".format(tag_definition['tag'], data_position))
+					data = self._parser_change(tag_definition, data, data_position, tag_start_end_position, tag_end_position)
 				#
 				else: data_position += tag_length
 			#
@@ -140,7 +139,7 @@ Parse for "[tags]" and calls "parser_check()" for possible hits.
 		return data
 	#
 
-	def parser_change(self, tag_definition, data, tag_position, data_position, tag_end_position):
+	def _parser_change(self, tag_definition, data, tag_position, data_position, tag_end_position):
 	#
 		"""
 Change data according to the matched tag.
@@ -151,7 +150,6 @@ Change data according to the matched tag.
 :param data_position: Data starting position
 :param tag_end_position: Starting position of the closing tag
 
-:access: protected
 :return: (str) Converted data
 :since:  v0.1.00
 		"""
@@ -159,14 +157,13 @@ Change data according to the matched tag.
 		raise RuntimeError("Not implemented", 38)
 	#
 
-	def parser_check(self, data):
+	def _parser_check(self, data):
 	#
 		"""
 Check if a possible tag match is a false positive.
 
 :param data: Data starting with the possible tag
 
-:access: protected
 :return: (dict) Matched tag definition; None if false positive
 :since:  v0.1.00
 		"""
@@ -174,7 +171,7 @@ Check if a possible tag match is a false positive.
 		return None
 	#
 
-	def parser_tag_end_find_position(self, data, data_position, tag_end):
+	def _parser_tag_end_find_position(self, data, data_position, tag_end):
 	#
 		"""
 Find the starting position of the closing tag.
@@ -183,33 +180,32 @@ Find the starting position of the closing tag.
 :param data_position: Current parser position
 :param tag_end: Tag end definition
 
-:access: protected
 :return: (int) Position; -1 if not found
 :since:  v0.1.00
 		"""
 
-		var_return = None
+		_return = None
 
 		is_valid = True
 		result = -1
 
-		while ((var_return == None or var_return > -1) and is_valid):
+		while ((_return == None or _return > -1) and is_valid):
 		#
 			result = data.find(tag_end, data_position)
-			if (result > -1 and (var_return == None or result < var_return)): var_return = result
+			if (result > -1 and (_return == None or result < _return)): _return = result
 
-			if (var_return == None): var_return = -1
-			elif (var_return > -1):
+			if (_return == None): _return = -1
+			elif (_return > -1):
 			#
-				data_position = var_return
-				if (data[var_return - 1:var_return] != "\\"): is_valid = False
+				data_position = _return
+				if (data[_return - 1:_return] != "\\"): is_valid = False
 			#
 		#
 
-		return var_return
+		return _return
 	#
 
-	def parser_tag_find_end_position(self, data, data_position):
+	def _parser_tag_find_end_position(self, data, data_position):
 	#
 		"""
 Find the starting position of the enclosing content.
@@ -217,28 +213,27 @@ Find the starting position of the enclosing content.
 :param data: String that contains convertable data
 :param data_position: Current parser position
 
-:access: protected
 :return: (int) Position; -1 if not found
 :since:  v0.1.00
 		"""
 
-		var_return = None
+		_return = None
 
 		is_valid = True
 
-		while ((var_return == None or var_return > -1) and is_valid):
+		while ((_return == None or _return > -1) and is_valid):
 		#
-			var_return = data.find("]", data_position)
+			_return = data.find("]", data_position)
 
-			if (var_return > -1):
+			if (_return > -1):
 			#
-				data_position = var_return
-				if (data[var_return - 1:var_return] != "\\"): is_valid = False
+				data_position = _return
+				if (data[_return - 1:_return] != "\\"): is_valid = False
 			#
 		#
 
-		if (var_return > -1): var_return += 1
-		return var_return
+		if (_return > -1): _return += 1
+		return _return
 	#
 #
 
