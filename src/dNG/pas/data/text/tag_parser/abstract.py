@@ -2,7 +2,7 @@
 ##j## BOF
 
 """
-dNG.pas.data.tag_parser.Abstract
+dNG.pas.data.text.tag_parser.Abstract
 """
 """n// NOTE
 ----------------------------------------------------------------------------
@@ -22,6 +22,8 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 #echo(__FILEPATH__)#
 ----------------------------------------------------------------------------
 NOTE_END //n"""
+
+from dNG.pas.data.traced_exception import TracedException
 
 class Abstract(object):
 #
@@ -47,7 +49,7 @@ Constructor __init__(Abstract)
 
 		self.log_handler = None
 		"""
-The log_handler is called whenever debug messages should be logged or errors
+The LogHandler is called whenever debug messages should be logged or errors
 happened.
 		"""
 	#
@@ -125,7 +127,7 @@ Parse for "[tags]" and calls "_parser_check()" for possible hits.
 
 				if (tag_end_position > -1):
 				#
-					if (self.log_handler != None): self.log_handler.debug("pas.TagParser found '{0}' at {1:d}".format(tag_definition['tag'], data_position))
+					if (self.log_handler != None): self.log_handler.debug("{0!r} found '{1}' at {2:d}".format(self, tag_definition['tag'], data_position))
 					data = self._parser_change(tag_definition, data, data_position, tag_start_end_position, tag_end_position)
 				#
 				else: data_position += tag_length
@@ -154,7 +156,7 @@ Change data according to the matched tag.
 :since:  v0.1.00
 		"""
 
-		raise RuntimeError("Not implemented", 38)
+		raise TracedException("Not implemented")
 	#
 
 	def _parser_check(self, data):
