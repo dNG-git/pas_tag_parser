@@ -23,7 +23,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 NOTE_END //n"""
 
-from dNG.pas.data.traced_exception import TracedException
+from dNG.pas.runtime.not_implemented_exception import NotImplementedException
 
 class Abstract(object):
 #
@@ -61,7 +61,7 @@ Parse for "[tags]" and calls "_parser_check()" for possible hits.
 
 :param data: Data to be parsed
 :param data_position: Current parser position
-:param nested_tag_end_position: End position for nested tags 
+:param nested_tag_end_position: End position for nested tags
 
 :return: (bool) True if replacements happened
 :since:  v0.1.00
@@ -88,47 +88,34 @@ Parse for "[tags]" and calls "_parser_check()" for possible hits.
 			if (tag_definition == None): data_position += 1
 			else:
 			#
+				is_simple_tag = ("type" in tag_definition and tag_definition['type'] == "simple")
+				is_valid = False
 				tag_length = len(tag_definition['tag'])
-				tag_start_end_position = self._parser_tag_find_end_position(data, data_position + 1 + tag_length)
+
+				tag_element_end_position = self._parser_tag_find_end_position(data, data_position + 1 + tag_length)
 				tag_end_position = -1
 
-				if (tag_start_end_position > -1):
+				if (is_simple_tag): is_valid = (tag_element_end_position > -1)
+				elif (tag_element_end_position > -1):
 				#
-					tag_end_position = self._parser_tag_end_find_position(data, tag_start_end_position, tag_definition['tag_end'])
+					tag_end_position = self._parser_tag_end_find_position(data, tag_element_end_position, tag_definition['tag_end'])
 
 					if (tag_end_position >= 0):
 					#
-						if ("type" not in tag_definition or tag_definition['type'] != "top_down"):
-						#
-							nested_data = self._parser(data, data_position + 1, tag_end_position)
+						( data, tag_end_position ) = (
+							self._parser_nested_walker(data, data_position, tag_definition, tag_end_position)
+							if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
+							self._parser_top_down_walker(data, data_position, tag_definition, tag_end_position)
+						)
 
-							while (nested_data != None):
-							#
-								data = nested_data
-								tag_start_end_position = self._parser_tag_find_end_position(data, data_position + 1)
-								if (tag_start_end_position > -1): tag_end_position = self._parser_tag_end_find_position(data, tag_start_end_position, tag_definition['tag_end'])
-
-								nested_data = self._parser(data, data_position + 1, tag_end_position)
-							#
-						#
-						else:
-						#
-							nested_tag_position = data.find("[" + tag_definition['tag'], data_position + 1 + tag_length)
-							tag_end_length = len(tag_definition['tag_end'])
-
-							while (nested_tag_position >= 0 and nested_tag_position < tag_end_position):
-							#
-								if (self._parser_check(data[nested_tag_position:]) != None): tag_end_position = self._parser_tag_end_find_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
-								nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
-							#
-						#
+						is_valid = (tag_end_position > -1)
 					#
 				#
 
-				if (tag_end_position > -1):
+				if (is_valid):
 				#
 					if (self.log_handler != None): self.log_handler.debug("{0!r} found '{1}' at {2:d}".format(self, tag_definition['tag'], data_position))
-					data = self._parser_change(tag_definition, data, data_position, tag_start_end_position, tag_end_position)
+					data = self._parser_change(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
 				#
 				else: data_position += tag_length
 			#
@@ -156,7 +143,7 @@ Change data according to the matched tag.
 :since:  v0.1.00
 		"""
 
-		raise TracedException("Not implemented")
+		raise NotImplementedException()
 	#
 
 	def _parser_check(self, data):
@@ -171,6 +158,36 @@ Check if a possible tag match is a false positive.
 		"""
 
 		return None
+	#
+
+	def _parser_nested_walker(self, data, data_position, tag_definition, tag_end_position):
+	#
+		"""
+Parse nested tags recursively.
+
+:param data: Data to be parsed
+:param data_position: Current parser position
+:param tag_definition: Matched tag definition
+:param tag_end_position: Starting position of the closing tag
+
+:return: (int) New starting position of the closing tag
+:since:  v0.1.00
+		"""
+
+		_return = tag_end_position
+
+		nested_data = self._parser(data, data_position + 1, tag_end_position)
+
+		while (nested_data != None):
+		#
+			data = nested_data
+			tag_element_end_position = self._parser_tag_find_end_position(data, data_position + 1)
+			if (tag_element_end_position > -1): _return = self._parser_tag_end_find_position(data, tag_element_end_position, tag_definition['tag_end'])
+
+			nested_data = self._parser(data, data_position + 1, _return)
+		#
+
+		return ( data, _return )
 	#
 
 	def _parser_tag_end_find_position(self, data, data_position, tag_end):
@@ -236,6 +253,36 @@ Find the starting position of the enclosing content.
 
 		if (_return > -1): _return += 1
 		return _return
+	#
+
+	def _parser_top_down_walker(self, data, data_position, tag_definition, tag_end_position):
+	#
+		"""
+Parse nested tags of the same type to find the correct end position.
+
+:param data: Data to be parsed
+:param data_position: Current parser position
+:param tag_definition: Matched tag definition
+:param tag_end_position: Starting position of the closing tag
+
+:return: (int) New starting position of the closing tag
+:since:  v0.1.00
+		"""
+
+		_return = tag_end_position
+
+		tag_length = len(tag_definition['tag'])
+
+		nested_tag_position = data.find("[" + tag_definition['tag'], data_position + 1 + tag_length)
+		tag_end_length = len(tag_definition['tag_end'])
+
+		while (nested_tag_position >= 0 and nested_tag_position < _return):
+		#
+			if (self._parser_check(data[nested_tag_position:]) != None): _return = self._parser_tag_end_find_position(data, _return + tag_end_length, tag_definition['tag_end'])
+			nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
+		#
+
+		return ( data, _return )
 	#
 #
 
