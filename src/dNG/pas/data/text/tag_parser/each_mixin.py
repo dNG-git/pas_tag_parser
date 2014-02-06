@@ -35,7 +35,7 @@ This tag parser mixin provides support for each loop statements.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.00
+:since:      v0.1.01
 :license:    http://www.direct-netware.de/redirect.py?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -52,7 +52,7 @@ Checks and renders the each statement.
 :param mapping_key: Element mapping key
 
 :return: (str) Rewritten statement if successful
-:since:  v0.1.00
+:since:  v0.1.01
 		"""
 
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_each(data, {1}, source, {2}, {3})- (#echo(__LINE__)#)".format(self, source_key, key, mapping_key))
@@ -67,7 +67,7 @@ Checks and renders the each statement.
 				element_mapped_key = "{0}.{1}.{2}".format(source_key, key, mapping_key)
 				self._mapped_element_set(element_mapped_key, element)
 
-				try: _return += self._parser(data)
+				try: _return += self._parse(data)
 				finally: self._mapped_element_remove(element_mapped_key)
 			#
 		#

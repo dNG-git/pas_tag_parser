@@ -35,7 +35,7 @@ values.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.00
+:since:      v0.1.01
 :license:    http://www.direct-netware.de/redirect.py?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -52,7 +52,7 @@ Checks and renders the content of the "if" condition.
 :param value: Comparison value
 
 :return: (str) Conditional data if successful
-:since:  v0.1.00
+:since:  v0.1.01
 		"""
 
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_if_condition(xml_parser, {1}, {2}, {3}, {4}, data)- (#echo(__LINE__)#)".format(self, xml_base_path, xml_value_path, operator, value))

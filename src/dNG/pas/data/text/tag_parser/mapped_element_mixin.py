@@ -32,7 +32,7 @@ This tag parser mixin provides support for mapping elements for loops.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.00
+:since:      v0.1.01
 :license:    http://www.direct-netware.de/redirect.py?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -42,7 +42,7 @@ This tag parser mixin provides support for mapping elements for loops.
 		"""
 Constructor __init__(MappedElementMixin)
 
-:since: v0.1.00
+:since: v0.1.01
 		"""
 
 		self.mapped_data = { }
@@ -59,7 +59,7 @@ Checks and renders the rewrite statement.
 :param source: Source for rewrite
 :param key: Key in source for rewrite
 
-:since: v0.1.00
+:since: v0.1.01
 		"""
 
 		if (source == None): source = self.mapped_data
@@ -88,7 +88,7 @@ Checks and renders the rewrite statement.
 :param source: Source for rewrite
 :param key: Key in source for rewrite
 
-:since: v0.1.00
+:since: v0.1.01
 		"""
 
 		if (source == None): source = self.mapped_data
@@ -114,7 +114,7 @@ Checks and renders the rewrite statement.
 :param source: Source for rewrite
 :param key: Key in source for rewrite
 
-:since: v0.1.00
+:since: v0.1.01
 		"""
 
 		if (key in self.mapped_data): return self._mapped_element_update_walker(self.mapped_data[key], source.copy())
@@ -129,7 +129,7 @@ Checks and renders the rewrite statement.
 :param source: Source for rewrite
 :param key: Key in source for rewrite
 
-:since: v0.1.00
+:since: v0.1.01
 		"""
 
 		for key in source:

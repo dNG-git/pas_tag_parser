@@ -32,7 +32,7 @@ This tag parser mixin provides support to find a key in a given source dict.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.00
+:since:      v0.1.01
 :license:    http://www.direct-netware.de/redirect.py?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -46,7 +46,7 @@ Checks and renders the rewrite statement.
 :param key: Key in source for rewrite
 
 :return: (str) Rewritten statement if successful
-:since:  v0.1.00
+:since:  v0.1.01
 		"""
 
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.source_get_value(source, {1})- (#echo(__LINE__)#)".format(self, key))
