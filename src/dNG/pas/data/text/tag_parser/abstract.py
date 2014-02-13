@@ -23,6 +23,8 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 NOTE_END //n"""
 
+import re
+
 from dNG.pas.runtime.not_implemented_exception import NotImplementedException
 
 class Abstract(object):
@@ -283,6 +285,63 @@ Parse nested tags of the same type to find the correct end position.
 		#
 
 		return ( data, _return )
+	#
+
+	@staticmethod
+	def parse_tag_parameters(tag_key, data, tag_position, data_position):
+	#
+		"""
+Check if a possible tag matches the given expected, simple tag.
+
+:param tag_key: Tag key
+:param data: Data starting with the possible tag
+:param tag_position: Tag starting position
+:param data_position: Data starting position
+
+:return: (bool) True if valid
+:since:  v0.1.01
+		"""
+
+		_return = { }
+
+		data_splitted = data[1 + len(tag_key) + tag_position:data_position - 1].split(":", 1)
+
+		data = (data_splitted[0] if (len(data_splitted[0]) > 0 or len(data_splitted) > 1) else None)
+		re_escaped = re.compile("(\\\\+)$")
+		value = ""
+
+		while (data != None):
+		#
+			if (len(data) > 0):
+			#
+				re_result = re_escaped.search(data)
+				value += data
+
+				if (re_result == None or (len(re_result.group(1)) % 2) != 1):
+				#
+					value_splitted = value.split("=", 1)
+
+					if (len(value_splitted) > 1):
+					#
+						key = value_splitted[0]
+						value = value_splitted[1]
+					#
+					else: key = tag_key
+
+					if (key not in _return): _return[key] = value
+					value = ""
+				#
+			#
+
+			if (len(data_splitted) > 1):
+			#
+				data_splitted = data_splitted[1].split(":", 1)
+				data = data_splitted[0]
+			#
+			else: data = None
+		#
+
+		return _return
 	#
 #
 
