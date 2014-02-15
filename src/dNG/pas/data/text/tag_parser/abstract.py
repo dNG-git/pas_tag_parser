@@ -41,6 +41,8 @@ The abstract parser implements methods to find and process "[tags]".
              Mozilla Public License, v. 2.0
 	"""
 
+	# pylint: disable=unused-argument
+
 	def __init__(self):
 	#
 		"""

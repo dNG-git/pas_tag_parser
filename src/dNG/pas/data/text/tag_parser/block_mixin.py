@@ -55,6 +55,8 @@ Checks and renders the block statement.
 :since:  v0.1.01
 		"""
 
+		# pylint: disable=broad-except
+
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_block(data, source_key, source, key)- (#echo(__LINE__)#)".format(self))
 		_return = ""
 
