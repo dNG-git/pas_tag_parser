@@ -37,7 +37,7 @@ This tag parser mixin provides support to find a key in a given source dict.
              Mozilla Public License, v. 2.0
 	"""
 
-	def source_get_value(self, source, key):
+	def get_source_value(self, source, key):
 	#
 		"""
 Checks and renders the rewrite statement.
@@ -49,7 +49,7 @@ Checks and renders the rewrite statement.
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.source_get_value(source, {1})- (#echo(__LINE__)#)".format(self, key))
+		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value(source, {1})- (#echo(__LINE__)#)".format(self, key))
 		_return = None
 
 		if (isinstance(source, dict)):
@@ -58,7 +58,7 @@ Checks and renders the rewrite statement.
 
 			if (key_list[0] in source):
 			#
-				if (len(key_list) > 1): _return = self.source_get_value(source[key_list[0]], key_list[1])
+				if (len(key_list) > 1): _return = self.get_source_value(source[key_list[0]], key_list[1])
 				else: _return = source[key]
 			#
 		#

@@ -59,7 +59,7 @@ Checks and renders the content of the "if" condition.
 		_return = ""
 
 		is_valid = False
-		xml_value = xml_parser.node_get_value("{0} {1}".format(xml_base_path, xml_value_path))
+		xml_value = xml_parser.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
 
 		xml_value = ("" if (xml_value == None) else Binary.str(xml_value))
 		if (type(xml_value) != str): xml_value = str(xml_value)

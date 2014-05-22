@@ -59,7 +59,7 @@ Checks and renders the content of the "if" condition.
 		_return = ""
 
 		is_valid = False
-		source_value = self.source_get_value(source, key)
+		source_value = self.get_source_value(source, key)
 
 		source_value = ("" if (source_value == None) else Binary.str(source_value))
 		if (type(source_value) != str): source_value = str(source_value)

@@ -58,17 +58,17 @@ Checks and renders the each statement.
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_each(data, {1}, source, {2}, {3})- (#echo(__LINE__)#)".format(self, source_key, key, mapping_key))
 		_return = ""
 
-		elements = self.source_get_value(source, key)
+		elements = self.get_source_value(source, key)
 
 		if (isinstance(elements, list)):
 		#
 			for element in elements:
 			#
 				element_mapped_key = "{0}.{1}.{2}".format(source_key, key, mapping_key)
-				self._mapped_element_set(element_mapped_key, element)
+				self._set_mapped_element(element_mapped_key, element)
 
 				try: _return += self._parse(data)
-				finally: self._mapped_element_remove(element_mapped_key)
+				finally: self._remove_mapped_element(element_mapped_key)
 			#
 		#
 

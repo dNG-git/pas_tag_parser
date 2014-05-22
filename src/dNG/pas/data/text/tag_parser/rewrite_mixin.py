@@ -53,7 +53,7 @@ Checks and renders the rewrite statement.
 		"""
 
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite(source, {1})- (#echo(__LINE__)#)".format(self, key))
-		_return = self.source_get_value(source, key)
+		_return = self.get_source_value(source, key)
 
 		_return = (" {0} ".format(key) if (_return == None) else Binary.str(_return))
 		if (type(_return) != str): _return = str(_return)

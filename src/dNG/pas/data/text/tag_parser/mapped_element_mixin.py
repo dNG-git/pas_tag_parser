@@ -51,7 +51,7 @@ Dict with mapped data
 		"""
 	#
 
-	def _mapped_element_remove(self, key, source = None):
+	def _remove_mapped_element(self, key, source = None):
 	#
 		"""
 Checks and renders the rewrite statement.
@@ -72,7 +72,7 @@ Checks and renders the rewrite statement.
 			#
 				if (len(key_list) > 1):
 				#
-					self._mapped_element_remove(key_list[1], source[key_list[0]])
+					self._remove_mapped_element(key_list[1], source[key_list[0]])
 					if (len(source[key_list[0]]) < 1): del(source[key_list[0]])
 				#
 				else: del(source[key])
@@ -80,7 +80,7 @@ Checks and renders the rewrite statement.
 		#
 	#
 
-	def _mapped_element_set(self, key, value, source = None):
+	def _set_mapped_element(self, key, value, source = None):
 	#
 		"""
 Checks and renders the rewrite statement.
@@ -100,13 +100,13 @@ Checks and renders the rewrite statement.
 			if (len(key_list) > 1):
 			#
 				if (key_list[0] not in source): source[key_list[0]] = { }
-				self._mapped_element_set(key_list[1], value, source[key_list[0]])
+				self._set_mapped_element(key_list[1], value, source[key_list[0]])
 			#
 			else: source[key] = value
 		#
 	#
 
-	def _mapped_element_update(self, key, source):
+	def _update_mapped_element(self, key, source):
 	#
 		"""
 Checks and renders the rewrite statement.
@@ -117,11 +117,11 @@ Checks and renders the rewrite statement.
 :since: v0.1.01
 		"""
 
-		if (key in self.mapped_data): return self._mapped_element_update_walker(self.mapped_data[key], source.copy())
+		if (key in self.mapped_data): return self._update_mapped_element_walker(self.mapped_data[key], source.copy())
 		else: return source
 	#
 
-	def _mapped_element_update_walker(self, source, target):
+	def _update_mapped_element_walker(self, source, target):
 	#
 		"""
 Checks and renders the rewrite statement.
@@ -136,8 +136,8 @@ Checks and renders the rewrite statement.
 		#
 			if (isinstance(source[key], dict)):
 			#
-				if (key in target): target[key] = self._mapped_element_update_walker(source[key], (target[key] if (isinstance(target[key], dict)) else { }))
-				else: target[key] = self._mapped_element_update_walker(source[key], { })
+				if (key in target): target[key] = self._update_mapped_element_walker(source[key], (target[key] if (isinstance(target[key], dict)) else { }))
+				else: target[key] = self._update_mapped_element_walker(source[key], { })
 			#
 			else: target[key] = source[key]
 		#

@@ -62,7 +62,7 @@ Checks and renders the block statement.
 
 		try:
 		#
-			content = (self.content if (source_key == None) else self.source_get_value(source, key))
+			content = (self.content if (source_key == None) else self.get_source_value(source, key))
 
 			action_definition = action.split(".")
 			action = action_definition.pop()

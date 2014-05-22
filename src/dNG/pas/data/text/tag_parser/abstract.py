@@ -123,7 +123,7 @@ Find the starting position of the enclosing content.
 		return _return
 	#
 
-	def _match_change(self, tag_definition, data, tag_position, data_position, tag_end_position):
+	def _change_match(self, tag_definition, data, tag_position, data_position, tag_end_position):
 	#
 		"""
 Change data according to the matched tag.
@@ -141,7 +141,7 @@ Change data according to the matched tag.
 		raise NotImplementedException()
 	#
 
-	def _match_check(self, data):
+	def _check_match(self, data):
 	#
 		"""
 Check if a possible tag match is a false positive.
@@ -158,7 +158,7 @@ Check if a possible tag match is a false positive.
 	def _parse(self, data, data_position = 0, nested_tag_end_position = None):
 	#
 		"""
-Parse for "[tags]" and calls "_match_check()" for possible hits.
+Parse for "[tags]" and calls "_check_match()" for possible hits.
 
 :param data: Data to be parsed
 :param data_position: Current parser position
@@ -184,7 +184,7 @@ Parse for "[tags]" and calls "_match_check()" for possible hits.
 
 		while (data_position > -1):
 		#
-			tag_definition = self._match_check(data[data_position:])
+			tag_definition = self._check_match(data[data_position:])
 
 			if (tag_definition == None): data_position += 1
 			else:
@@ -203,11 +203,10 @@ Parse for "[tags]" and calls "_match_check()" for possible hits.
 
 					if (tag_end_position >= 0):
 					#
-						( data, tag_end_position ) = (
-							self._parse_nested_walker(data, data_position, tag_definition, tag_end_position)
-							if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
-							self._parse_top_down_walker(data, data_position, tag_definition, tag_end_position)
-						)
+						( data, tag_end_position ) = (self._parse_nested_walker(data, data_position, tag_definition, tag_end_position)
+						                              if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
+						                              self._parse_top_down_walker(data, data_position, tag_definition, tag_end_position)
+						                             )
 
 						is_valid = (tag_end_position > -1)
 					#
@@ -216,7 +215,7 @@ Parse for "[tags]" and calls "_match_check()" for possible hits.
 				if (is_valid):
 				#
 					if (self.log_handler != None): self.log_handler.debug("{0!r} found '{1}' at {2:d}".format(self, tag_definition['tag'], data_position))
-					data = self._match_change(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
+					data = self._change_match(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
 				#
 				else: data_position += tag_length
 			#
@@ -282,7 +281,7 @@ Parse nested tags of the same type to find the correct end position.
 
 		while (nested_tag_position >= 0 and nested_tag_position < _return):
 		#
-			if (self._match_check(data[nested_tag_position:]) != None): _return = self._find_end_tag_position(data, _return + tag_end_length, tag_definition['tag_end'])
+			if (self._check_match(data[nested_tag_position:]) != None): _return = self._find_end_tag_position(data, _return + tag_end_length, tag_definition['tag_end'])
 			nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
 		#
 

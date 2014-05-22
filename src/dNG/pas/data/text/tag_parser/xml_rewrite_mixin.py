@@ -52,7 +52,7 @@ Checks and renders the rewrite statement.
 		"""
 
 		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_rewrite(xml_parser, {1}, {2})- (#echo(__LINE__)#)".format(self, xml_base_path, xml_value_path))
-		_return = xml_parser.node_get_value("{0} {1}".format(xml_base_path, xml_value_path))
+		_return = xml_parser.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
 
 		_return = (" {0} ".format(xml_value_path) if (_return == None) else Binary.str(_return))
 		if (type(_return) != str): _return = str(_return)
