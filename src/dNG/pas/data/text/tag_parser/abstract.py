@@ -189,7 +189,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 			if (tag_definition == None): data_position += 1
 			else:
 			#
-				is_simple_tag = ("type" in tag_definition and tag_definition['type'] == "simple")
+				is_simple_tag = (tag_definition.get("type") == "simple")
 				is_valid = False
 				tag_length = len(tag_definition['tag'])
 
