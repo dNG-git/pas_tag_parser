@@ -2,10 +2,6 @@
 ##j## BOF
 
 """
-dNG.pas.data.text.tag_parser.XmlRewriteMixin
-"""
-"""n// NOTE
-----------------------------------------------------------------------------
 direct PAS
 Python Application Services
 ----------------------------------------------------------------------------
@@ -20,8 +16,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 #echo(pasTagParserVersion)#
 #echo(__FILEPATH__)#
-----------------------------------------------------------------------------
-NOTE_END //n"""
+"""
 
 from dNG.pas.data.binary import Binary
 
@@ -39,20 +34,22 @@ This tag parser mixin provides support for XML based rewrite statements.
              Mozilla Public License, v. 2.0
 	"""
 
-	def render_xml_rewrite(self, xml_parser, xml_base_path, xml_value_path):
+	def render_xml_rewrite(self, xml_resource, xml_base_path, xml_value_path):
 	#
 		"""
-Checks and renders the rewrite statement.
+Renders the data identified by the given node value path in the XML
+resource.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param xml_resource: XML resource instance
+:param xml_base_path: XML base node path
+:param xml_value_path: XML value node path
 
-:return: (str) Rewritten statement if successful
+:return: (str) Rendered content
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_rewrite(xml_parser, {1}, {2})- (#echo(__LINE__)#)".format(self, xml_base_path, xml_value_path))
-		_return = xml_parser.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
+		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_rewrite({1}, {2})- (#echo(__LINE__)#)", self, xml_base_path, xml_value_path, context = "pas_tag_parser")
+		_return = xml_resource.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
 
 		_return = (" {0} ".format(xml_value_path) if (_return == None) else Binary.str(_return))
 		if (type(_return) != str): _return = str(_return)

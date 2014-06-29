@@ -2,10 +2,6 @@
 ##j## BOF
 
 """
-dNG.pas.data.text.tag_parser.XmlIfConditionMixin
-"""
-"""n// NOTE
-----------------------------------------------------------------------------
 direct PAS
 Python Application Services
 ----------------------------------------------------------------------------
@@ -20,8 +16,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 #echo(pasTagParserVersion)#
 #echo(__FILEPATH__)#
-----------------------------------------------------------------------------
-NOTE_END //n"""
+"""
 
 from dNG.pas.data.binary import Binary
 
@@ -55,7 +50,7 @@ Checks and renders the content of the "if" condition.
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_if_condition(xml_parser, {1}, {2}, {3}, {4}, data)- (#echo(__LINE__)#)".format(self, xml_base_path, xml_value_path, operator, value))
+		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_if_condition({1}, {2}, {3}, {4})- (#echo(__LINE__)#)", self, xml_base_path, xml_value_path, operator, value, context = "pas_tag_parser")
 		_return = ""
 
 		is_valid = False

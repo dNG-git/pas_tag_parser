@@ -2,10 +2,6 @@
 ##j## BOF
 
 """
-dNG.pas.data.text.tag_parser.IfConditionMixin
-"""
-"""n// NOTE
-----------------------------------------------------------------------------
 direct PAS
 Python Application Services
 ----------------------------------------------------------------------------
@@ -20,8 +16,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 #echo(pasTagParserVersion)#
 #echo(__FILEPATH__)#
-----------------------------------------------------------------------------
-NOTE_END //n"""
+"""
 
 from dNG.pas.data.binary import Binary
 from .source_value_mixin import SourceValueMixin
@@ -55,14 +50,18 @@ Checks and renders the content of the "if" condition.
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition(source, {1}, {2}, {3}, data)- (#echo(__LINE__)#)".format(self, key, operator, value))
+		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition({1}, {2}, {3})- (#echo(__LINE__)#)", self, key, operator, value, context = "pas_tag_parser")
 		_return = ""
 
 		is_valid = False
 		source_value = self.get_source_value(source, key)
 
 		source_value = ("" if (source_value == None) else Binary.str(source_value))
-		if (type(source_value) != str): source_value = str(source_value)
+
+		_type = type(source_value)
+
+		if (type(source_value) == bool): source_value = ("1" if (source_value) else "0")
+		elif (type(source_value) != str): source_value = str(source_value)
 
 		if (operator == "==" and source_value == value): is_valid = True
 		if (operator == "!=" and source_value != value): is_valid = True

@@ -2,10 +2,6 @@
 ##j## BOF
 
 """
-dNG.pas.data.text.tag_parser.MappedElementMixin
-"""
-"""n// NOTE
-----------------------------------------------------------------------------
 direct PAS
 Python Application Services
 ----------------------------------------------------------------------------
@@ -20,8 +16,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 #echo(pasTagParserVersion)#
 #echo(__FILEPATH__)#
-----------------------------------------------------------------------------
-NOTE_END //n"""
+"""
 
 class MappedElementMixin(object):
 #
@@ -54,10 +49,10 @@ Dict with mapped data
 	def _remove_mapped_element(self, key, source = None):
 	#
 		"""
-Checks and renders the rewrite statement.
+Removed the mapped element from the source.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param key: Multi-dimensional key in source separated by "."
+:param source: Source where value will be removed
 
 :since: v0.1.01
 		"""
@@ -83,10 +78,10 @@ Checks and renders the rewrite statement.
 	def _set_mapped_element(self, key, value, source = None):
 	#
 		"""
-Checks and renders the rewrite statement.
+Sets the mapped element key to the given value.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param key: Multi-dimensional key in source separated by "."
+:param source: Source where value will be set as key
 
 :since: v0.1.01
 		"""
@@ -109,12 +104,13 @@ Checks and renders the rewrite statement.
 	def _update_mapped_element(self, key, source):
 	#
 		"""
-Checks and renders the rewrite statement.
+Updates the source with the mapped element identified by the given key.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param key: Key of the mapped element
+:param source: Source where the mapped element will be included
 
-:since: v0.1.01
+:return: Source including the mapped element
+:since:  v0.1.01
 		"""
 
 		if (key in self.mapped_data): return self._update_mapped_element_walker(self.mapped_data[key], source.copy())
@@ -124,12 +120,14 @@ Checks and renders the rewrite statement.
 	def _update_mapped_element_walker(self, source, target):
 	#
 		"""
-Checks and renders the rewrite statement.
+Updates the source recursively with the mapped element identified by the
+given key.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param source: Source that should be mapped to target
+:param target: Mapped dict
 
-:since: v0.1.01
+:return: Target with the source applied
+:since:  v0.1.01
 		"""
 
 		for key in source:

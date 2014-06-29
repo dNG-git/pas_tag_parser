@@ -2,10 +2,6 @@
 ##j## BOF
 
 """
-dNG.pas.data.text.tag_parser.RewriteMixin
-"""
-"""n// NOTE
-----------------------------------------------------------------------------
 direct PAS
 Python Application Services
 ----------------------------------------------------------------------------
@@ -20,8 +16,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 #echo(pasTagParserVersion)#
 #echo(__FILEPATH__)#
-----------------------------------------------------------------------------
-NOTE_END //n"""
+"""
 
 from dNG.pas.data.binary import Binary
 from .source_value_mixin import SourceValueMixin
@@ -43,16 +38,16 @@ This tag parser mixin provides support for rewrite statements.
 	def render_rewrite(self, source, key):
 	#
 		"""
-Checks and renders the rewrite statement.
+Renders the data identified by the given key.
 
 :param source: Source for rewrite
 :param key: Key in source for rewrite
 
-:return: (str) Rewritten statement if successful
+:return: (str) Rendered content
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite(source, {1})- (#echo(__LINE__)#)".format(self, key))
+		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
 		_return = self.get_source_value(source, key)
 
 		_return = (" {0} ".format(key) if (_return == None) else Binary.str(_return))

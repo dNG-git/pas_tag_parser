@@ -2,10 +2,6 @@
 ##j## BOF
 
 """
-dNG.pas.data.text.tag_parser.SourceValueMixin
-"""
-"""n// NOTE
-----------------------------------------------------------------------------
 direct PAS
 Python Application Services
 ----------------------------------------------------------------------------
@@ -20,8 +16,7 @@ http://www.direct-netware.de/redirect.py?licenses;mpl2
 ----------------------------------------------------------------------------
 #echo(pasTagParserVersion)#
 #echo(__FILEPATH__)#
-----------------------------------------------------------------------------
-NOTE_END //n"""
+"""
 
 class SourceValueMixin(object):
 #
@@ -40,16 +35,16 @@ This tag parser mixin provides support to find a key in a given source dict.
 	def get_source_value(self, source, key):
 	#
 		"""
-Checks and renders the rewrite statement.
+Returns the value in the source dict identified by the given key.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param source: Source where key is defined
+:param key: Key in source
 
-:return: (str) Rewritten statement if successful
+:return: (mixed) Source value; None if not found
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value(source, {1})- (#echo(__LINE__)#)".format(self, key))
+		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
 		_return = None
 
 		if (isinstance(source, dict)):
