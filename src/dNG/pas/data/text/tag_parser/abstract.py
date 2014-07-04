@@ -215,7 +215,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 				else: data_position += tag_length
 			#
 
-			if (nested_check): data_position = -1
+			if (tag_definition != None and nested_check): data_position = -1
 			else: data_position = data.find("[", data_position)
 		#
 
