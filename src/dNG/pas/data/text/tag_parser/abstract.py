@@ -68,10 +68,9 @@ Find the starting position of the closing tag.
 
 		_return = None
 
-		is_valid = True
 		result = -1
 
-		while ((_return == None or _return > -1) and is_valid):
+		while (_return == None or _return > -1):
 		#
 			result = data.find(tag_end, data_position)
 			if (result > -1 and (_return == None or result < _return)): _return = result
@@ -80,7 +79,7 @@ Find the starting position of the closing tag.
 			elif (_return > -1):
 			#
 				data_position = _return
-				if (data[_return - 1:_return] != "\\"): is_valid = False
+				if (data[_return - 1:_return] != "\\"): break
 			#
 		#
 
@@ -101,16 +100,14 @@ Find the starting position of the enclosing content.
 
 		_return = None
 
-		is_valid = True
-
-		while ((_return == None or _return > -1) and is_valid):
+		while (_return == None or _return > -1):
 		#
 			_return = data.find("]", data_position)
 
 			if (_return > -1):
 			#
 				data_position = _return
-				if (data[_return - 1:_return] != "\\"): is_valid = False
+				if (data[_return - 1:_return] != "\\"): break
 			#
 		#
 
@@ -341,7 +338,7 @@ Check if a possible tag matches the given expected, simple tag.
 				data_splitted = data_splitted[1].split(":", 1)
 				data = data_splitted[0]
 			#
-			else: data = None
+			else: break
 		#
 
 		return _return
