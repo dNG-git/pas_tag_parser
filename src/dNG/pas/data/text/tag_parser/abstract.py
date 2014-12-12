@@ -38,6 +38,11 @@ The abstract parser implements methods to find and process "[tags]".
 
 	# pylint: disable=unused-argument
 
+	RE_ESCAPED = re.compile("(\\\\+)$")
+	"""
+RegExp to identify escaped values
+	"""
+
 	def __init__(self):
 	#
 		"""
@@ -307,14 +312,13 @@ Check if a possible tag matches the given expected, simple tag.
 		data_splitted = data[1 + len(tag_key) + tag_position:data_position - 1].split(":", 1)
 
 		data = (data_splitted[0] if (len(data_splitted[0]) > 0 or len(data_splitted) > 1) else None)
-		re_escaped = re.compile("(\\\\+)$")
 		value = ""
 
 		while (data != None):
 		#
 			if (len(data) > 0):
 			#
-				re_result = re_escaped.search(data)
+				re_result = Abstract.RE_ESCAPED.search(data)
 				value += data
 
 				if (re_result == None or (len(re_result.group(1)) % 2) != 1):
@@ -323,7 +327,7 @@ Check if a possible tag matches the given expected, simple tag.
 
 					if (len(value_splitted) > 1):
 					#
-						key = value_splitted[0]
+						key = (tag_key if (value_splitted[0] == "") else value_splitted[0])
 						value = value_splitted[1]
 					#
 					else: key = tag_key
