@@ -50,13 +50,13 @@ Checks and renders the content of the "if" condition.
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_if_condition({1}, {2}, {3}, {4})- (#echo(__LINE__)#)", self, xml_base_path, xml_value_path, operator, value, context = "pas_tag_parser")
+		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_if_condition({1}, {2}, {3}, {4})- (#echo(__LINE__)#)", self, xml_base_path, xml_value_path, operator, value, context = "pas_tag_parser")
 		_return = ""
 
 		is_valid = False
 		xml_value = xml_parser.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
 
-		xml_value = ("" if (xml_value == None) else Binary.str(xml_value))
+		xml_value = ("" if (xml_value is None) else Binary.str(xml_value))
 		if (type(xml_value) != str): xml_value = str(xml_value)
 
 		if (operator == "==" and xml_value == value): is_valid = True

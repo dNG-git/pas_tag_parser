@@ -75,12 +75,12 @@ Find the starting position of the closing tag.
 
 		result = -1
 
-		while (_return == None or _return > -1):
+		while (_return is None or _return > -1):
 		#
 			result = data.find(tag_end, data_position)
-			if (result > -1 and (_return == None or result < _return)): _return = result
+			if (result > -1 and (_return is None or result < _return)): _return = result
 
-			if (_return == None): _return = -1
+			if (_return is None): _return = -1
 			elif (_return > -1):
 			#
 				data_position = _return
@@ -105,7 +105,7 @@ Find the starting position of the enclosing content.
 
 		_return = None
 
-		while (_return == None or _return > -1):
+		while (_return is None or _return > -1):
 		#
 			_return = data.find("]", data_position)
 
@@ -165,7 +165,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 :since:  v0.1.00
 		"""
 
-		if (nested_tag_end_position == None):
+		if (nested_tag_end_position is None):
 		#
 			data_position = data.find("[", data_position)
 			nested_check = False
@@ -183,7 +183,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 		#
 			tag_definition = self._check_match(data[data_position:])
 
-			if (tag_definition == None): data_position += 1
+			if (tag_definition is None): data_position += 1
 			else:
 			#
 				is_simple_tag = (tag_definition.get("type") == "simple")
@@ -211,13 +211,13 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 
 				if (is_valid):
 				#
-					if (self.log_handler != None): self.log_handler.debug("{0!r} found '{1}' at {2:d}", self, tag_definition['tag'], data_position, context = "pas_tag_parser")
+					if (self.log_handler is not None): self.log_handler.debug("{0!r} found '{1}' at {2:d}", self, tag_definition['tag'], data_position, context = "pas_tag_parser")
 					data = self._change_match(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
 				#
 				else: data_position += tag_length
 			#
 
-			if (tag_definition != None and nested_check): data_position = -1
+			if (tag_definition is not None and nested_check): data_position = -1
 			else: data_position = data.find("[", data_position)
 		#
 
@@ -242,7 +242,7 @@ Parse nested tags recursively.
 
 		nested_data = self._parse(data, data_position + 1, tag_end_position)
 
-		while (nested_data != None):
+		while (nested_data is not None):
 		#
 			data = nested_data
 			tag_element_end_position_new = self._find_tag_end_position(data, data_position + 1)
@@ -283,7 +283,7 @@ Parse nested tags of the same type to find the correct end position.
 		while (nested_tag_position >= 0 and nested_tag_position < tag_end_position):
 		#
 			is_nested = True
-			if (self._check_match(data[nested_tag_position:]) != None): tag_end_position = self._find_end_tag_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
+			if (self._check_match(data[nested_tag_position:]) is not None): tag_end_position = self._find_end_tag_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
 			nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
 		#
 
@@ -314,14 +314,14 @@ Check if a possible tag matches the given expected, simple tag.
 		data = (data_splitted[0] if (len(data_splitted[0]) > 0 or len(data_splitted) > 1) else None)
 		value = ""
 
-		while (data != None):
+		while (data is not None):
 		#
 			if (len(data) > 0):
 			#
 				re_result = Abstract.RE_ESCAPED.search(data)
 				value += data
 
-				if (re_result == None or (len(re_result.group(1)) % 2) != 1):
+				if (re_result is None or (len(re_result.group(1)) % 2) != 1):
 				#
 					value_splitted = value.split("=", 1)
 

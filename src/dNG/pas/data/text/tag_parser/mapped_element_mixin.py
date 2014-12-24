@@ -57,7 +57,7 @@ Removed the mapped element from the source.
 :since: v0.1.01
 		"""
 
-		if (source == None): source = self.mapped_data
+		if (source is None): source = self.mapped_data
 
 		if (isinstance(source, dict)):
 		#
@@ -86,7 +86,7 @@ Sets the mapped element key to the given value.
 :since: v0.1.01
 		"""
 
-		if (source == None): source = self.mapped_data
+		if (source is None): source = self.mapped_data
 
 		if (isinstance(source, dict)):
 		#

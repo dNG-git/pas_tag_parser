@@ -47,10 +47,10 @@ Renders the data identified by the given key.
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
+		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
 		_return = self.get_source_value(source, key)
 
-		_return = (" {0} ".format(key) if (_return == None) else Binary.str(_return))
+		_return = ("" if (_return is None) else Binary.str(_return))
 		if (type(_return) != str): _return = str(_return)
 
 		return _return

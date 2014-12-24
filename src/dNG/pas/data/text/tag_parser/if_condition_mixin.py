@@ -50,13 +50,13 @@ Checks and renders the content of the "if" condition.
 :since:  v0.1.01
 		"""
 
-		if (self.log_handler != None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition({1}, {2}, {3})- (#echo(__LINE__)#)", self, key, operator, value, context = "pas_tag_parser")
+		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition({1}, {2}, {3})- (#echo(__LINE__)#)", self, key, operator, value, context = "pas_tag_parser")
 		_return = ""
 
 		is_valid = False
 		source_value = self.get_source_value(source, key)
 
-		source_value = ("" if (source_value == None) else Binary.str(source_value))
+		source_value = ("" if (source_value is None) else Binary.str(source_value))
 
 		_type = type(source_value)
 
