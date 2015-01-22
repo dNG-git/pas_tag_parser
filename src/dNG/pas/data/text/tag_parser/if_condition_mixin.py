@@ -57,11 +57,10 @@ Checks and renders the content of the "if" condition.
 		source_value = self.get_source_value(source, key)
 
 		source_value = ("" if (source_value is None) else Binary.str(source_value))
+		source_value_type = type(source_value)
 
-		_type = type(source_value)
-
-		if (type(source_value) == bool): source_value = ("1" if (source_value) else "0")
-		elif (type(source_value) != str): source_value = str(source_value)
+		if (source_value_type is bool): source_value = ("1" if (source_value) else "0")
+		elif (source_value_type is not str): source_value = str(source_value)
 
 		if (operator == "==" and source_value == value): is_valid = True
 		if (operator == "!=" and source_value != value): is_valid = True

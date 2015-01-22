@@ -51,7 +51,7 @@ Renders the data identified by the given key.
 		_return = self.get_source_value(source, key)
 
 		_return = ("" if (_return is None) else Binary.str(_return))
-		if (type(_return) != str): _return = str(_return)
+		if (type(_return) is not str): _return = str(_return)
 
 		return _return
 	#

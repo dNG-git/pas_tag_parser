@@ -52,7 +52,7 @@ resource.
 		_return = xml_resource.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
 
 		_return = ("" if (_return is None) else Binary.str(_return))
-		if (type(_return) != str): _return = str(_return)
+		if (type(_return) is not str): _return = str(_return)
 
 		return _return
 	#
