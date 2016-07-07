@@ -23,11 +23,11 @@ class MappedElementMixin(object):
 	"""
 This tag parser mixin provides support for mapping elements for loops.
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.01
+:since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -37,7 +37,7 @@ This tag parser mixin provides support for mapping elements for loops.
 		"""
 Constructor __init__(MappedElementMixin)
 
-:since: v0.1.01
+:since: v0.2.00
 		"""
 
 		self.mapped_data = { }
@@ -54,7 +54,7 @@ Removed the mapped element from the source.
 :param key: Multi-dimensional key in source separated by "."
 :param source: Source where value will be removed
 
-:since: v0.1.01
+:since: v0.2.00
 		"""
 
 		if (source is None): source = self.mapped_data
@@ -83,7 +83,7 @@ Sets the mapped element key to the given value.
 :param key: Multi-dimensional key in source separated by "."
 :param source: Source where value will be set as key
 
-:since: v0.1.01
+:since: v0.2.00
 		"""
 
 		if (source is None): source = self.mapped_data
@@ -110,7 +110,7 @@ Updates the source with the mapped element identified by the given key.
 :param source: Source where the mapped element will be included
 
 :return: Source including the mapped element
-:since:  v0.1.01
+:since:  v0.2.00
 		"""
 
 		if (key in self.mapped_data): return self._update_mapped_element_walker(self.mapped_data[key], source.copy())
@@ -127,7 +127,7 @@ given key.
 :param target: Mapped dict
 
 :return: Target with the source applied
-:since:  v0.1.01
+:since:  v0.2.00
 		"""
 
 		for key in source:

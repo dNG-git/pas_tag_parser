@@ -26,11 +26,11 @@ class EachMixin(MappedElementMixin, SourceValueMixin):
 	"""
 This tag parser mixin provides support for each loop statements.
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.01
+:since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -47,7 +47,7 @@ Checks and renders the each statement.
 :param mapping_key: Element mapping key
 
 :return: (str) Rewritten statement if successful
-:since:  v0.1.01
+:since:  v0.2.00
 		"""
 
 		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_each({1}, {2}, {3})- (#echo(__LINE__)#)", self, source_key, key, mapping_key, context = "pas_tag_parser")

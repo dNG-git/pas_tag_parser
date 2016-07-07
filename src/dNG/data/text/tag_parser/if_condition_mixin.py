@@ -18,7 +18,8 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-from dNG.pas.data.binary import Binary
+from dNG.data.binary import Binary
+
 from .source_value_mixin import SourceValueMixin
 
 class IfConditionMixin(SourceValueMixin):
@@ -26,11 +27,11 @@ class IfConditionMixin(SourceValueMixin):
 	"""
 This tag parser mixin provides support for if conditions.
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.01
+:since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -47,7 +48,7 @@ Checks and renders the content of the "if" condition.
 :param value: Comparison value
 
 :return: (str) Conditional data if successful
-:since:  v0.1.01
+:since:  v0.2.00
 		"""
 
 		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition({1}, {2}, {3})- (#echo(__LINE__)#)", self, key, operator, value, context = "pas_tag_parser")

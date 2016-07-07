@@ -18,40 +18,45 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-from dNG.pas.data.binary import Binary
-from .source_value_mixin import SourceValueMixin
-
-class RewriteMixin(SourceValueMixin):
+class SourceValueMixin(object):
 #
 	"""
-This tag parser mixin provides support for rewrite statements.
+This tag parser mixin provides support to find a key in a given source dict.
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.01
+:since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
 
-	def render_rewrite(self, source, key):
+	def get_source_value(self, source, key):
 	#
 		"""
-Renders the data identified by the given key.
+Returns the value in the source dict identified by the given key.
 
-:param source: Source for rewrite
-:param key: Key in source for rewrite
+:param source: Source where key is defined
+:param key: Key in source
 
-:return: (str) Rendered content
-:since:  v0.1.01
+:return: (mixed) Source value; None if not found
+:since:  v0.2.00
 		"""
 
-		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
-		_return = self.get_source_value(source, key)
+		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
+		_return = None
 
-		_return = ("" if (_return is None) else Binary.str(_return))
-		if (type(_return) is not str): _return = str(_return)
+		if (isinstance(source, dict)):
+		#
+			key_list = key.split(".", 1)
+
+			if (key_list[0] in source):
+			#
+				if (len(key_list) > 1): _return = self.get_source_value(source[key_list[0]], key_list[1])
+				else: _return = source[key]
+			#
+		#
 
 		return _return
 	#

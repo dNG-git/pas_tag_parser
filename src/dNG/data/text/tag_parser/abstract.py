@@ -20,18 +20,18 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 
 import re
 
-from dNG.pas.runtime.not_implemented_exception import NotImplementedException
+from dNG.runtime.not_implemented_exception import NotImplementedException
 
 class Abstract(object):
 #
 	"""
 The abstract parser implements methods to find and process "[tags]".
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.00
+:since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
@@ -48,7 +48,7 @@ RegExp to identify escaped values
 		"""
 Constructor __init__(Abstract)
 
-:since: v0.1.00
+:since: v0.2.00
 		"""
 
 		self.log_handler = None
@@ -68,7 +68,7 @@ Find the starting position of the closing tag.
 :param tag_end: Tag end definition
 
 :return: (int) Position; -1 if not found
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		_return = None
@@ -100,7 +100,7 @@ Find the starting position of the enclosing content.
 :param data_position: Current parser position
 
 :return: (int) Position; -1 if not found
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		_return = None
@@ -132,7 +132,7 @@ Change data according to the matched tag.
 :param tag_end_position: Starting position of the closing tag
 
 :return: (str) Converted data
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		raise NotImplementedException()
@@ -146,7 +146,7 @@ Check if a possible tag match is a false positive.
 :param data: Data starting with the possible tag
 
 :return: (dict) Matched tag definition; None if false positive
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		return None
@@ -162,7 +162,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 :param nested_tag_end_position: End position for nested tags
 
 :return: (bool) True if replacements happened
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		if (nested_tag_end_position is None):
@@ -237,7 +237,7 @@ Parse nested tags recursively.
 :param tag_end_position: Starting position of the closing tag
 
 :return: (tuple) New data and positions values
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		nested_data = self._parse(data, data_position + 1, tag_end_position)
@@ -271,7 +271,7 @@ Parse nested tags of the same type to find the correct end position.
 :param tag_end_position: Starting position of the closing tag
 
 :return: (tuple) New data and positions values
-:since:  v0.1.00
+:since:  v0.2.00
 		"""
 
 		tag_length = len(tag_definition['tag'])
@@ -304,7 +304,7 @@ Check if a possible tag matches the given expected, simple tag.
 :param data_position: Data starting position
 
 :return: (bool) True if valid
-:since:  v0.1.01
+:since:  v0.2.00
 		"""
 
 		_return = { }

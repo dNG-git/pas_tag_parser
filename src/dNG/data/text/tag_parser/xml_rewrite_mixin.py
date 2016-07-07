@@ -18,45 +18,41 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-class SourceValueMixin(object):
+from dNG.data.binary import Binary
+
+class XmlRewriteMixin(object):
 #
 	"""
-This tag parser mixin provides support to find a key in a given source dict.
+This tag parser mixin provides support for XML based rewrite statements.
 
-:author:     direct Netware Group
+:author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.1.01
+:since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
 	"""
 
-	def get_source_value(self, source, key):
+	def render_xml_rewrite(self, xml_resource, xml_base_path, xml_value_path):
 	#
 		"""
-Returns the value in the source dict identified by the given key.
+Renders the data identified by the given node value path in the XML
+resource.
 
-:param source: Source where key is defined
-:param key: Key in source
+:param xml_resource: XML resource instance
+:param xml_base_path: XML base node path
+:param xml_value_path: XML value node path
 
-:return: (mixed) Source value; None if not found
-:since:  v0.1.01
+:return: (str) Rendered content
+:since:  v0.2.00
 		"""
 
-		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
-		_return = None
+		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_rewrite({1}, {2})- (#echo(__LINE__)#)", self, xml_base_path, xml_value_path, context = "pas_tag_parser")
+		_return = xml_resource.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
 
-		if (isinstance(source, dict)):
-		#
-			key_list = key.split(".", 1)
-
-			if (key_list[0] in source):
-			#
-				if (len(key_list) > 1): _return = self.get_source_value(source[key_list[0]], key_list[1])
-				else: _return = source[key]
-			#
-		#
+		_return = ("" if (_return is None) else Binary.str(_return))
+		if (type(_return) is not str): _return = str(_return)
 
 		return _return
 	#
