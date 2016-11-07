@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-##j## BOF
 
 """
 direct PAS
@@ -19,8 +18,7 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 """
 
 class SourceValueMixin(object):
-#
-	"""
+    """
 This tag parser mixin provides support to find a key in a given source dict.
 
 :author:     direct Netware Group et al.
@@ -30,11 +28,10 @@ This tag parser mixin provides support to find a key in a given source dict.
 :since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
-	"""
+    """
 
-	def get_source_value(self, source, key):
-	#
-		"""
+    def get_source_value(self, source, key):
+        """
 Returns the value in the source dict identified by the given key.
 
 :param source: Source where key is defined
@@ -42,24 +39,20 @@ Returns the value in the source dict identified by the given key.
 
 :return: (mixed) Source value; None if not found
 :since:  v0.2.00
-		"""
+        """
 
-		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
-		_return = None
+        if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
+        _return = None
 
-		if (isinstance(source, dict)):
-		#
-			key_list = key.split(".", 1)
+        if (isinstance(source, dict)):
+            key_list = key.split(".", 1)
 
-			if (key_list[0] in source):
-			#
-				if (len(key_list) > 1): _return = self.get_source_value(source[key_list[0]], key_list[1])
-				else: _return = source[key]
-			#
-		#
+            if (key_list[0] in source):
+                if (len(key_list) > 1): _return = self.get_source_value(source[key_list[0]], key_list[1])
+                else: _return = source[key]
+            #
+        #
 
-		return _return
-	#
+        return _return
+    #
 #
-
-##j## EOF

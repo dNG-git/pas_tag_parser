@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-##j## BOF
 
 """
 direct PAS
@@ -23,8 +22,7 @@ from dNG.data.binary import Binary
 from .source_value_mixin import SourceValueMixin
 
 class IfConditionMixin(SourceValueMixin):
-#
-	"""
+    """
 This tag parser mixin provides support for if conditions.
 
 :author:     direct Netware Group et al.
@@ -34,11 +32,10 @@ This tag parser mixin provides support for if conditions.
 :since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
-	"""
+    """
 
-	def render_if_condition(self, source, key, operator, value, data):
-	#
-		"""
+    def render_if_condition(self, source, key, operator, value, data):
+        """
 Checks and renders the content of the "if" condition.
 
 :param data: Conditional data
@@ -49,26 +46,24 @@ Checks and renders the content of the "if" condition.
 
 :return: (str) Conditional data if successful
 :since:  v0.2.00
-		"""
+        """
 
-		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition({1}, {2}, {3})- (#echo(__LINE__)#)", self, key, operator, value, context = "pas_tag_parser")
-		_return = ""
+        if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_if_condition({1}, {2}, {3})- (#echo(__LINE__)#)", self, key, operator, value, context = "pas_tag_parser")
+        _return = ""
 
-		is_valid = False
-		source_value = self.get_source_value(source, key)
+        is_valid = False
+        source_value = self.get_source_value(source, key)
 
-		source_value = ("" if (source_value is None) else Binary.str(source_value))
-		source_value_type = type(source_value)
+        source_value = ("" if (source_value is None) else Binary.str(source_value))
+        source_value_type = type(source_value)
 
-		if (source_value_type is bool): source_value = ("1" if (source_value) else "0")
-		elif (source_value_type is not str): source_value = str(source_value)
+        if (source_value_type is bool): source_value = ("1" if (source_value) else "0")
+        elif (source_value_type is not str): source_value = str(source_value)
 
-		if (operator == "==" and source_value == value): is_valid = True
-		if (operator == "!=" and source_value != value): is_valid = True
+        if (operator == "==" and source_value == value): is_valid = True
+        if (operator == "!=" and source_value != value): is_valid = True
 
-		if (is_valid): _return = data
-		return _return
-	#
+        if (is_valid): _return = data
+        return _return
+    #
 #
-
-##j## EOF

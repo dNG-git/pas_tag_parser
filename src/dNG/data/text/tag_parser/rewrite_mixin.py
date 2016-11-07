@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-##j## BOF
 
 """
 direct PAS
@@ -23,8 +22,7 @@ from dNG.data.binary import Binary
 from .source_value_mixin import SourceValueMixin
 
 class RewriteMixin(SourceValueMixin):
-#
-	"""
+    """
 This tag parser mixin provides support for rewrite statements.
 
 :author:     direct Netware Group et al.
@@ -34,11 +32,10 @@ This tag parser mixin provides support for rewrite statements.
 :since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
-	"""
+    """
 
-	def render_rewrite(self, source, key):
-	#
-		"""
+    def render_rewrite(self, source, key):
+        """
 Renders the data identified by the given key.
 
 :param source: Source for rewrite
@@ -46,16 +43,14 @@ Renders the data identified by the given key.
 
 :return: (str) Rendered content
 :since:  v0.2.00
-		"""
+        """
 
-		if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
-		_return = self.get_source_value(source, key)
+        if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
+        _return = self.get_source_value(source, key)
 
-		_return = ("" if (_return is None) else Binary.str(_return))
-		if (type(_return) is not str): _return = str(_return)
+        _return = ("" if (_return is None) else Binary.str(_return))
+        if (type(_return) is not str): _return = str(_return)
 
-		return _return
-	#
+        return _return
+    #
 #
-
-##j## EOF

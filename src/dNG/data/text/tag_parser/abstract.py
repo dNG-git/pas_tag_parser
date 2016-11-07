@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-##j## BOF
 
 """
 direct PAS
@@ -23,8 +22,7 @@ import re
 from dNG.runtime.not_implemented_exception import NotImplementedException
 
 class Abstract(object):
-#
-	"""
+    """
 The abstract parser implements methods to find and process "[tags]".
 
 :author:     direct Netware Group et al.
@@ -34,33 +32,31 @@ The abstract parser implements methods to find and process "[tags]".
 :since:      v0.2.00
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
-	"""
+    """
 
-	# pylint: disable=unused-argument
+    # pylint: disable=unused-argument
 
-	RE_ESCAPED = re.compile("(\\\\+)$")
-	"""
+    RE_ESCAPED = re.compile("(\\\\+)$")
+    """
 RegExp to identify escaped values
-	"""
+    """
 
-	def __init__(self):
-	#
-		"""
+    def __init__(self):
+        """
 Constructor __init__(Abstract)
 
 :since: v0.2.00
-		"""
+        """
 
-		self.log_handler = None
-		"""
+        self.log_handler = None
+        """
 The LogHandler is called whenever debug messages should be logged or errors
 happened.
-		"""
-	#
+        """
+    #
 
-	def _find_end_tag_position(self, data, data_position, tag_end):
-	#
-		"""
+    def _find_end_tag_position(self, data, data_position, tag_end):
+        """
 Find the starting position of the closing tag.
 
 :param data: String that contains convertable data
@@ -69,31 +65,28 @@ Find the starting position of the closing tag.
 
 :return: (int) Position; -1 if not found
 :since:  v0.2.00
-		"""
+        """
 
-		_return = None
+        _return = None
 
-		result = -1
+        result = -1
 
-		while (_return is None or _return > -1):
-		#
-			result = data.find(tag_end, data_position)
-			if (result > -1 and (_return is None or result < _return)): _return = result
+        while (_return is None or _return > -1):
+            result = data.find(tag_end, data_position)
+            if (result > -1 and (_return is None or result < _return)): _return = result
 
-			if (_return is None): _return = -1
-			elif (_return > -1):
-			#
-				data_position = _return
-				if (data[_return - 1:_return] != "\\"): break
-			#
-		#
+            if (_return is None): _return = -1
+            elif (_return > -1):
+                data_position = _return
+                if (data[_return - 1:_return] != "\\"): break
+            #
+        #
 
-		return _return
-	#
+        return _return
+    #
 
-	def _find_tag_end_position(self, data, data_position):
-	#
-		"""
+    def _find_tag_end_position(self, data, data_position):
+        """
 Find the starting position of the enclosing content.
 
 :param data: String that contains convertable data
@@ -101,28 +94,25 @@ Find the starting position of the enclosing content.
 
 :return: (int) Position; -1 if not found
 :since:  v0.2.00
-		"""
+        """
 
-		_return = None
+        _return = None
 
-		while (_return is None or _return > -1):
-		#
-			_return = data.find("]", data_position)
+        while (_return is None or _return > -1):
+            _return = data.find("]", data_position)
 
-			if (_return > -1):
-			#
-				data_position = _return
-				if (data[_return - 1:_return] != "\\"): break
-			#
-		#
+            if (_return > -1):
+                data_position = _return
+                if (data[_return - 1:_return] != "\\"): break
+            #
+        #
 
-		if (_return > -1): _return += 1
-		return _return
-	#
+        if (_return > -1): _return += 1
+        return _return
+    #
 
-	def _change_match(self, tag_definition, data, tag_position, data_position, tag_end_position):
-	#
-		"""
+    def _change_match(self, tag_definition, data, tag_position, data_position, tag_end_position):
+        """
 Change data according to the matched tag.
 
 :param tag_definition: Matched tag definition
@@ -133,28 +123,26 @@ Change data according to the matched tag.
 
 :return: (str) Converted data
 :since:  v0.2.00
-		"""
+        """
 
-		raise NotImplementedException()
-	#
+        raise NotImplementedException()
+    #
 
-	def _check_match(self, data):
-	#
-		"""
+    def _check_match(self, data):
+        """
 Check if a possible tag match is a false positive.
 
 :param data: Data starting with the possible tag
 
 :return: (dict) Matched tag definition; None if false positive
 :since:  v0.2.00
-		"""
+        """
 
-		return None
-	#
+        return None
+    #
 
-	def _parse(self, data, data_position = 0, nested_tag_end_position = None):
-	#
-		"""
+    def _parse(self, data, data_position = 0, nested_tag_end_position = None):
+        """
 Parse for "[tags]" and calls "_check_match()" for possible hits.
 
 :param data: Data to be parsed
@@ -163,71 +151,61 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 
 :return: (bool) True if replacements happened
 :since:  v0.2.00
-		"""
+        """
 
-		if (nested_tag_end_position is None):
-		#
-			data_position = data.find("[", data_position)
-			nested_check = False
-		#
-		else:
-		#
-			data_position = data.find("[", data_position)
-			if (data_position >= nested_tag_end_position): data_position = -1
+        if (nested_tag_end_position is None):
+            data_position = data.find("[", data_position)
+            nested_check = False
+        else:
+            data_position = data.find("[", data_position)
+            if (data_position >= nested_tag_end_position): data_position = -1
 
-			nested_check = True
-			tag_end_position = -1
-		#
+            nested_check = True
+            tag_end_position = -1
+        #
 
-		while (data_position > -1):
-		#
-			tag_definition = self._check_match(data[data_position:])
+        while (data_position > -1):
+            tag_definition = self._check_match(data[data_position:])
 
-			if (tag_definition is None): data_position += 1
-			else:
-			#
-				is_simple_tag = (tag_definition.get("type") == "simple")
-				is_valid = False
-				tag_length = len(tag_definition['tag'])
+            if (tag_definition is None): data_position += 1
+            else:
+                is_simple_tag = (tag_definition.get("type") == "simple")
+                is_valid = False
+                tag_length = len(tag_definition['tag'])
 
-				tag_element_end_position = self._find_tag_end_position(data, data_position + 1 + tag_length)
-				tag_end_position = -1
+                tag_element_end_position = self._find_tag_end_position(data, data_position + 1 + tag_length)
+                tag_end_position = -1
 
-				if (is_simple_tag): is_valid = (tag_element_end_position > -1)
-				elif (tag_element_end_position > -1):
-				#
-					tag_end_position = self._find_end_tag_position(data, tag_element_end_position, tag_definition['tag_end'])
+                if (is_simple_tag): is_valid = (tag_element_end_position > -1)
+                elif (tag_element_end_position > -1):
+                    tag_end_position = self._find_end_tag_position(data, tag_element_end_position, tag_definition['tag_end'])
 
-					if (tag_end_position >= 0):
-					#
-						( data, tag_element_end_position, tag_end_position ) = (self._parse_nested_walker(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
-						                                                        if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
-						                                                        self._parse_top_down_walker(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
-						                                                       )
+                    if (tag_end_position >= 0):
+                        ( data, tag_element_end_position, tag_end_position ) = (self._parse_nested_walker(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
+                                                                                if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
+                                                                                self._parse_top_down_walker(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
+                                                                               )
 
-						is_valid = (tag_element_end_position > -1 and tag_end_position > -1)
-					#
-				#
+                        is_valid = (tag_element_end_position > -1 and tag_end_position > -1)
+                    #
+                #
 
-				if (is_valid):
-				#
-					if (self.log_handler is not None): self.log_handler.debug("{0!r} found '{1}' at {2:d}", self, tag_definition['tag'], data_position, context = "pas_tag_parser")
-					data = self._change_match(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
-				#
-				else: data_position += tag_length
-			#
+                if (is_valid):
+                    if (self.log_handler is not None): self.log_handler.debug("{0!r} found '{1}' at {2:d}", self, tag_definition['tag'], data_position, context = "pas_tag_parser")
+                    data = self._change_match(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
+                else: data_position += tag_length
+            #
 
-			if (tag_definition is not None and nested_check): data_position = -1
-			else: data_position = data.find("[", data_position)
-		#
+            if (tag_definition is not None and nested_check): data_position = -1
+            else: data_position = data.find("[", data_position)
+        #
 
-		if (nested_check and tag_end_position < 0): data = None
-		return data
-	#
+        if (nested_check and tag_end_position < 0): data = None
+        return data
+    #
 
-	def _parse_nested_walker(self, data, data_position, tag_definition, tag_element_end_position, tag_end_position):
-	#
-		"""
+    def _parse_nested_walker(self, data, data_position, tag_definition, tag_element_end_position, tag_end_position):
+        """
 Parse nested tags recursively.
 
 :param data: Data to be parsed
@@ -238,30 +216,27 @@ Parse nested tags recursively.
 
 :return: (tuple) New data and positions values
 :since:  v0.2.00
-		"""
+        """
 
-		nested_data = self._parse(data, data_position + 1, tag_end_position)
+        nested_data = self._parse(data, data_position + 1, tag_end_position)
 
-		while (nested_data is not None):
-		#
-			data = nested_data
-			tag_element_end_position_new = self._find_tag_end_position(data, data_position + 1)
+        while (nested_data is not None):
+            data = nested_data
+            tag_element_end_position_new = self._find_tag_end_position(data, data_position + 1)
 
-			if (tag_element_end_position_new > -1):
-			#
-				tag_end_position = self._find_end_tag_position(data, tag_element_end_position_new, tag_definition['tag_end'])
-				tag_element_end_position = tag_element_end_position_new
-			#
+            if (tag_element_end_position_new > -1):
+                tag_end_position = self._find_end_tag_position(data, tag_element_end_position_new, tag_definition['tag_end'])
+                tag_element_end_position = tag_element_end_position_new
+            #
 
-			nested_data = self._parse(data, data_position + 1, tag_end_position)
-		#
+            nested_data = self._parse(data, data_position + 1, tag_end_position)
+        #
 
-		return ( data, tag_element_end_position, tag_end_position )
-	#
+        return ( data, tag_element_end_position, tag_end_position )
+    #
 
-	def _parse_top_down_walker(self, data, data_position, tag_definition, tag_element_end_position, tag_end_position):
-	#
-		"""
+    def _parse_top_down_walker(self, data, data_position, tag_definition, tag_element_end_position, tag_end_position):
+        """
 Parse nested tags of the same type to find the correct end position.
 
 :param data: Data to be parsed
@@ -272,30 +247,28 @@ Parse nested tags of the same type to find the correct end position.
 
 :return: (tuple) New data and positions values
 :since:  v0.2.00
-		"""
+        """
 
-		tag_length = len(tag_definition['tag'])
+        tag_length = len(tag_definition['tag'])
 
-		is_nested = False
-		nested_tag_position = data.find("[" + tag_definition['tag'], data_position + 1 + tag_length)
-		tag_end_length = len(tag_definition['tag_end'])
+        is_nested = False
+        nested_tag_position = data.find("[" + tag_definition['tag'], data_position + 1 + tag_length)
+        tag_end_length = len(tag_definition['tag_end'])
 
-		while (nested_tag_position >= 0 and nested_tag_position < tag_end_position):
-		#
-			is_nested = True
-			if (self._check_match(data[nested_tag_position:]) is not None): tag_end_position = self._find_end_tag_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
-			nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
-		#
+        while (nested_tag_position >= 0 and nested_tag_position < tag_end_position):
+            is_nested = True
+            if (self._check_match(data[nested_tag_position:]) is not None): tag_end_position = self._find_end_tag_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
+            nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
+        #
 
-		if (is_nested): tag_element_end_position = self._find_tag_end_position(data, data_position + 1)
+        if (is_nested): tag_element_end_position = self._find_tag_end_position(data, data_position + 1)
 
-		return ( data, tag_element_end_position, tag_end_position )
-	#
+        return ( data, tag_element_end_position, tag_end_position )
+    #
 
-	@staticmethod
-	def parse_tag_parameters(tag_key, data, tag_position, data_position):
-	#
-		"""
+    @staticmethod
+    def parse_tag_parameters(tag_key, data, tag_position, data_position):
+        """
 Check if a possible tag matches the given expected, simple tag.
 
 :param tag_key: Tag key
@@ -305,48 +278,39 @@ Check if a possible tag matches the given expected, simple tag.
 
 :return: (bool) True if valid
 :since:  v0.2.00
-		"""
+        """
 
-		_return = { }
+        _return = { }
 
-		data_splitted = data[1 + len(tag_key) + tag_position:data_position - 1].split(":", 1)
+        data_splitted = data[1 + len(tag_key) + tag_position:data_position - 1].split(":", 1)
 
-		data = (data_splitted[0] if (len(data_splitted[0]) > 0 or len(data_splitted) > 1) else None)
-		value = ""
+        data = (data_splitted[0] if (len(data_splitted[0]) > 0 or len(data_splitted) > 1) else None)
+        value = ""
 
-		while (data is not None):
-		#
-			if (len(data) > 0):
-			#
-				re_result = Abstract.RE_ESCAPED.search(data)
-				value += data
+        while (data is not None):
+            if (len(data) > 0):
+                re_result = Abstract.RE_ESCAPED.search(data)
+                value += data
 
-				if (re_result is None or (len(re_result.group(1)) % 2) != 1):
-				#
-					value_splitted = value.split("=", 1)
+                if (re_result is None or (len(re_result.group(1)) % 2) != 1):
+                    value_splitted = value.split("=", 1)
 
-					if (len(value_splitted) > 1):
-					#
-						key = (tag_key if (value_splitted[0] == "") else value_splitted[0])
-						value = value_splitted[1]
-					#
-					else: key = tag_key
+                    if (len(value_splitted) > 1):
+                        key = (tag_key if (value_splitted[0] == "") else value_splitted[0])
+                        value = value_splitted[1]
+                    else: key = tag_key
 
-					if (key not in _return): _return[key] = value
-					value = ""
-				#
-			#
+                    if (key not in _return): _return[key] = value
+                    value = ""
+                #
+            #
 
-			if (len(data_splitted) > 1):
-			#
-				data_splitted = data_splitted[1].split(":", 1)
-				data = data_splitted[0]
-			#
-			else: break
-		#
+            if (len(data_splitted) > 1):
+                data_splitted = data_splitted[1].split(":", 1)
+                data = data_splitted[0]
+            else: break
+        #
 
-		return _return
-	#
+        return _return
+    #
 #
-
-##j## EOF
