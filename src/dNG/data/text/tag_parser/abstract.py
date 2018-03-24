@@ -31,7 +31,7 @@ The abstract parser implements methods to find and process "[tags]".
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.2.00
+:since:      v1.0.0
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
     """
@@ -47,14 +47,53 @@ RegExp to identify escaped values
         """
 Constructor __init__(Abstract)
 
-:since: v0.2.00
+:since: v1.0.0
         """
 
-        self.log_handler = None
+        self._log_handler = None
         """
 The LogHandler is called whenever debug messages should be logged or errors
 happened.
         """
+    #
+
+    def _find_newlines_block_position(self, data, data_position, newlines_max):
+        """
+Moves the given position to include the additional number of newline
+characters given.
+
+:param data: String that contains data
+:param data_position: Current parser position
+:param newlines_max: Newline characters before (<0) or after the given position
+
+:return: (int) Calculated position
+:since:  v1.0.0
+        """
+
+        _return = data_position
+
+        data_length = len(data)
+        direction = 1
+
+        if (newlines_max < 0):
+            direction = -1
+            newlines_max *= -1
+        #
+
+        for character_position in range(0, newlines_max):
+            if (direction > 0):
+                position_start = _return
+                position_end = _return + direction
+            else:
+                position_start = _return + direction
+                position_end = _return
+            #
+
+            if (_return < 1 or _return >= data_length or data[position_start:position_end] != "\n"): break
+            else: _return += direction
+        #
+
+        return _return
     #
 
     def _find_end_tag_position(self, data, data_position, tag_end):
@@ -66,7 +105,7 @@ Find the starting position of the closing tag.
 :param tag_end: Tag end definition
 
 :return: (int) Position; -1 if not found
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         _return = None
@@ -95,7 +134,7 @@ Find the starting position of the enclosing content.
 :param data_position: Current parser position
 
 :return: (int) Position; -1 if not found
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         _return = None
@@ -124,10 +163,32 @@ Change data according to the matched tag.
 :param tag_end_position: Starting position of the closing tag
 
 :return: (str) Converted data
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
-        raise NotImplementedException()
+        position = tag_position
+
+        if (tag_definition.get("newlines_before_block", 0) > 0):
+            position = self._find_newlines_block_position(data, position, -1 * tag_definition['newlines_before_block'])
+        #
+
+        _return = data[:position]
+
+        method = (getattr(self, "_change_match_{0}".format(tag_definition['tag'])) if (hasattr(self, "_change_match_{0}".format(tag_definition['tag']))) else None)
+
+        if (method is not None): _return += method(data, tag_position, data_position, tag_end_position)
+
+        if (tag_definition.get("type") != "simple"):
+            position = self._find_tag_end_position(data, tag_end_position)
+
+            if (tag_definition.get("newlines_after_block", 0) > 0):
+                position = self._find_newlines_block_position(data, position, tag_definition['newlines_after_block'])
+            #
+
+            _return += data[position:]
+        #
+
+        return _return
     #
 
     def _check_match(self, data):
@@ -137,7 +198,7 @@ Check if a possible tag match is a false positive.
 :param data: Data starting with the possible tag
 
 :return: (dict) Matched tag definition; None if false positive
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         return None
@@ -152,7 +213,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
 :param nested_tag_end_position: End position for nested tags
 
 :return: (bool) True if replacements happened
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         if (nested_tag_end_position is None):
@@ -193,7 +254,7 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
                 #
 
                 if (is_valid):
-                    if (self.log_handler is not None): self.log_handler.debug("{0!r} found '{1}' at {2:d}", self, tag_definition['tag'], data_position, context = "pas_tag_parser")
+                    if (self._log_handler is not None): self._log_handler.debug("{0!r} found '{1}' at {2:d}", self, tag_definition['tag'], data_position, context = "pas_tag_parser")
                     data = self._change_match(tag_definition, data, data_position, tag_element_end_position, tag_end_position)
                 else: data_position += tag_length
             #
@@ -217,7 +278,7 @@ Parse nested tags recursively.
 :param tag_end_position: Starting position of the closing tag
 
 :return: (tuple) New data and positions values
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         nested_data = self._parse(data, data_position + 1, tag_end_position)
@@ -248,7 +309,7 @@ Parse nested tags of the same type to find the correct end position.
 :param tag_end_position: Starting position of the closing tag
 
 :return: (tuple) New data and positions values
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         tag_length = len(tag_definition['tag'])
@@ -279,7 +340,7 @@ Check if a possible tag matches the given expected, simple tag.
 :param data_position: Data starting position
 
 :return: (bool) True if valid
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
         _return = { }
