@@ -25,7 +25,7 @@ This tag parser mixin provides support to find a key in a given source dict.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.2.00
+:since:      v1.0.0
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
     """
@@ -38,10 +38,10 @@ Returns the value in the source dict identified by the given key.
 :param key: Key in source
 
 :return: (mixed) Source value; None if not found
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
-        if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
+        if (self._log_handler is not None): self._log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
         _return = None
 
         if (isinstance(source, dict)):

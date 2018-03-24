@@ -31,7 +31,7 @@ This tag parser mixin provides support for rewrite statements.
 :copyright:  (C) direct Netware Group - All rights reserved
 :package:    pas
 :subpackage: tag_parser
-:since:      v0.2.00
+:since:      v1.0.0
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
     """
@@ -44,10 +44,10 @@ Renders the data identified by the given key.
 :param key: Key in source for rewrite
 
 :return: (str) Rendered content
-:since:  v0.2.00
+:since:  v1.0.0
         """
 
-        if (self.log_handler is not None): self.log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
+        if (self._log_handler is not None): self._log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_rewrite({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
         _return = self.get_source_value(source, key)
 
         _return = ("" if (_return is None) else Binary.str(_return))
