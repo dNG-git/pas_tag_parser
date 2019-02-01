@@ -174,7 +174,7 @@ Change data according to the matched tag.
 
         _return = data[:position]
 
-        method = (getattr(self, "_change_match_{0}".format(tag_definition['tag'])) if (hasattr(self, "_change_match_{0}".format(tag_definition['tag']))) else None)
+        method = getattr(self, "_change_match_{0}".format(tag_definition['tag']), None)
 
         if (method is not None): _return += method(data, tag_position, data_position, tag_end_position)
 
@@ -244,10 +244,15 @@ Parse for "[tags]" and calls "_check_match()" for possible hits.
                     tag_end_position = self._find_end_tag_position(data, tag_element_end_position, tag_definition['tag_end'])
 
                     if (tag_end_position >= 0):
-                        ( data, tag_element_end_position, tag_end_position ) = (self._parse_nested_walker(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
-                                                                                if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
-                                                                                self._parse_top_down_walker(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
-                                                                               )
+                        method = (self._parse_nested_walker
+                                  if ("type" not in tag_definition or tag_definition['type'] != "top_down") else
+                                  self._parse_top_down_walker
+                                 )
+
+                        ( data,
+                          tag_element_end_position,
+                          tag_end_position
+                        ) = method(data, data_position, tag_definition, tag_element_end_position, tag_end_position)
 
                         is_valid = (tag_element_end_position > -1 and tag_end_position > -1)
                     #
@@ -320,7 +325,11 @@ Parse nested tags of the same type to find the correct end position.
 
         while (nested_tag_position >= 0 and nested_tag_position < tag_end_position):
             is_nested = True
-            if (self._check_match(data[nested_tag_position:]) is not None): tag_end_position = self._find_end_tag_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
+
+            if (self._check_match(data[nested_tag_position:]) is not None):
+                tag_end_position = self._find_end_tag_position(data, tag_end_position + tag_end_length, tag_definition['tag_end'])
+            #
+
             nested_tag_position = data.find("[" + tag_definition['tag'], nested_tag_position + 1 + tag_length)
         #
 
