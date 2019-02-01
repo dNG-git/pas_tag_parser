@@ -118,7 +118,13 @@ given key.
 
         for key in source:
             if (isinstance(source[key], dict)):
-                if (key in target): target[key] = self._update_mapped_element_walker(source[key], (target[key] if (isinstance(target[key], dict)) else { }))
+                if (key in target):
+                    target[key] = self._update_mapped_element_walker(source[key],
+                                                                     ( target[key]
+                                                                       if (isinstance(target[key], dict)) else
+                                                                       { }
+                                                                     )
+                                                                    )
                 else: target[key] = self._update_mapped_element_walker(source[key], { })
             else: target[key] = source[key]
         #
