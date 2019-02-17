@@ -21,7 +21,9 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 
 from dNG.data.binary import Binary
 
-class XmlRewriteMixin(object):
+from .abstract_mixin import AbstractMixin
+
+class XmlRewriteMixin(AbstractMixin):
     """
 This tag parser mixin provides support for XML based rewrite statements.
 

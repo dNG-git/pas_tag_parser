@@ -21,7 +21,9 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 
 from dNG.data.binary import Binary
 
-class XmlIfConditionMixin(object):
+from .abstract_mixin import AbstractMixin
+
+class XmlIfConditionMixin(AbstractMixin):
     """
 This tag parser mixin provides support for if conditions based on XML
 values.

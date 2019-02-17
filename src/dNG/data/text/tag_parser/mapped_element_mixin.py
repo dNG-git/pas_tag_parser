@@ -17,7 +17,9 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-class MappedElementMixin(object):
+from .abstract_mixin import AbstractMixin
+
+class MappedElementMixin(AbstractMixin):
     """
 This tag parser mixin provides support for mapping elements for loops.
 
@@ -36,6 +38,8 @@ Constructor __init__(MappedElementMixin)
 
 :since: v1.0.0
         """
+
+        AbstractMixin.__init__(self)
 
         self.mapped_data = { }
         """

@@ -17,11 +17,9 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-from .abstract_mixin import AbstractMixin
-
-class SourceValueMixin(AbstractMixin):
+class AbstractMixin(object):
     """
-This tag parser mixin provides support to find a key in a given source dict.
+Abstract mixin class for tag parser mixins.
 
 :author:     direct Netware Group et al.
 :copyright:  (C) direct Netware Group - All rights reserved
@@ -32,29 +30,17 @@ This tag parser mixin provides support to find a key in a given source dict.
              Mozilla Public License, v. 2.0
     """
 
-    def get_source_value(self, source, key):
+    def __init__(self):
         """
-Returns the value in the source dict identified by the given key.
+Constructor __init__(AbstractMixin)
 
-:param source: Source where key is defined
-:param key: Key in source
-
-:return: (mixed) Source value; None if not found
-:since:  v1.0.0
+:since: v1.0.0
         """
 
-        if (self._log_handler is not None): self._log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
-        _return = None
-
-        if (isinstance(source, dict)):
-            key_list = key.split(".", 1)
-
-            if (key_list[0] in source):
-                if (len(key_list) > 1): _return = self.get_source_value(source[key_list[0]], key_list[1])
-                else: _return = source[key]
-            #
-        #
-
-        return _return
+        self._log_handler = None
+        """
+The LogHandler is called whenever debug messages should be logged or errors
+happened.
+        """
     #
 #
