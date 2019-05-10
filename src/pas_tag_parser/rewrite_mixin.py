@@ -19,7 +19,7 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 
 # pylint: disable=import-error, no-name-in-module
 
-from dNG.data.binary import Binary
+from dpt_runtime.binary import Binary
 
 from .source_value_mixin import SourceValueMixin
 

@@ -21,7 +21,7 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 
 import re
 
-from dNG.runtime.not_implemented_exception import NotImplementedException
+from dpt_runtime.not_implemented_exception import NotImplementedException
 
 class Abstract(object):
     """

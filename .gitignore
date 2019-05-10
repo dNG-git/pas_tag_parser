@@ -1,8 +1,12 @@
 __py*
 .*
+*.egg-info
 *.pyc
 nbproject
 /_extras
 /build
-/make*.py*
-/pas_tag_parser.*
+/dist
+/makefile.*
+/MANIFEST
+/pas_tag_parser*
+/pas-tag-parser*

@@ -12,7 +12,7 @@ obtain one at http://mozilla.org/MPL/2.0/.
 https://www.direct-netware.de/redirect?licenses;mpl2
 ----------------------------------------------------------------------------
 The following license agreement is valid for all files and subdirectories of
-pas_tag_parser (git)
+pas/tag_parser (git)
 ----------------------------------------------------------------------------
 
 Mozilla Public License
@@ -363,6 +363,7 @@ relevant directory) where a recipient would be likely to look for such a
 notice.
 
 You may add additional accurate notices of copyright ownership.
+
 Exhibit B - "Incompatible With Secondary Licenses" Notice
 
 This Source Code Form is "Incompatible With Secondary Licenses", as defined
