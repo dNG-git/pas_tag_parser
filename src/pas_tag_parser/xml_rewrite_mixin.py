@@ -18,6 +18,7 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 """
 
 from dpt_runtime.binary import Binary
+from dpt_xml import XmlResource
 
 from .abstract_mixin import AbstractMixin
 
@@ -54,7 +55,13 @@ resource.
         """
 
         if (self._log_handler is not None): self._log_handler.debug("#echo(__FILEPATH__)# -{0!r}.render_xml_rewrite({1}, {2})- (#echo(__LINE__)#)", self, xml_base_path, xml_value_path, context = "pas_tag_parser")
-        _return = xml_resource.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
+
+        if (xml_base_path != ""): xml_value_path = "{0} {1}".format(xml_base_path, xml_value_path)
+
+        _return = (xml_resource.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
+                   if (isinstance(xml_resource, XmlResource)) else
+                   ""
+                  )
 
         _return = ("" if (_return is None) else Binary.str(_return))
         if (type(_return) is not str): _return = str(_return)

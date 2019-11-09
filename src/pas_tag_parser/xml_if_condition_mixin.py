@@ -18,6 +18,7 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 """
 
 from dpt_runtime.binary import Binary
+from dpt_xml import XmlResource
 
 from .abstract_mixin import AbstractMixin
 
@@ -60,7 +61,11 @@ Checks and renders the content of the "if" condition.
         _return = ""
 
         is_valid = False
-        xml_value = xml_parser.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
+
+        xml_value = (xml_resource.get_node_value("{0} {1}".format(xml_base_path, xml_value_path))
+                     if (isinstance(xml_resource, XmlResource)) else
+                     ""
+                    )
 
         xml_value = ("" if (xml_value is None) else Binary.str(xml_value))
         if (type(xml_value) is not str): xml_value = str(xml_value)
