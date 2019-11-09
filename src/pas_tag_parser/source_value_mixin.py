@@ -17,6 +17,9 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
+try: from collections.abc import Mapping
+except ImportError: from collections import Mapping
+
 from .abstract_mixin import AbstractMixin
 
 class SourceValueMixin(AbstractMixin):
@@ -30,6 +33,12 @@ This tag parser mixin provides support to find a key in a given source dict.
 :since:      v1.0.0
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
+    """
+
+    __slots__ = [ ]
+    """
+python.org: __slots__ reserves space for the declared variables and prevents
+the automatic creation of __dict__ and __weakref__ for each instance.
     """
 
     def get_source_value(self, source, key):
@@ -46,7 +55,7 @@ Returns the value in the source dict identified by the given key.
         if (self._log_handler is not None): self._log_handler.debug("#echo(__FILEPATH__)# -{0!r}.get_source_value({1})- (#echo(__LINE__)#)", self, key, context = "pas_tag_parser")
         _return = None
 
-        if (isinstance(source, dict)):
+        if (isinstance(source, Mapping)):
             key_list = key.split(".", 1)
 
             if (key_list[0] in source):

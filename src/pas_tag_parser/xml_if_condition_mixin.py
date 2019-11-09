@@ -17,8 +17,6 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-# pylint: disable=import-error, no-name-in-module
-
 from dpt_runtime.binary import Binary
 
 from .abstract_mixin import AbstractMixin
@@ -37,15 +35,22 @@ values.
              Mozilla Public License, v. 2.0
     """
 
-    def render_xml_if_condition(self, xml_parser, xml_base_path, xml_value_path, operator, value, data):
+    __slots__ = [ ]
+    """
+python.org: __slots__ reserves space for the declared variables and prevents
+the automatic creation of __dict__ and __weakref__ for each instance.
+    """
+
+    def render_xml_if_condition(self, xml_resource, xml_base_path, xml_value_path, operator, value, data):
         """
 Checks and renders the content of the "if" condition.
 
-:param data: Conditional data
-:param source: Source for comparison
-:param key: Key in source for comparison
+:param xml_resource: XML resource instance
+:param xml_base_path: XML base node path
+:param xml_value_path: XML value node path
 :param operator: Comparison operator
 :param value: Comparison value
+:param data: Conditional data
 
 :return: (str) Conditional data if successful
 :since:  v1.0.0

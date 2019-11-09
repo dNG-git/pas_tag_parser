@@ -17,8 +17,6 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-# pylint: disable=import-error, no-name-in-module
-
 from dpt_runtime.binary import Binary
 
 from .source_value_mixin import SourceValueMixin
@@ -34,6 +32,12 @@ This tag parser mixin provides support for if conditions.
 :since:      v1.0.0
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
+    """
+
+    __slots__ = [ ]
+    """
+python.org: __slots__ reserves space for the declared variables and prevents
+the automatic creation of __dict__ and __weakref__ for each instance.
     """
 
     def render_if_condition(self, source, key, operator, value, data):

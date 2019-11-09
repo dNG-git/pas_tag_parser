@@ -17,6 +17,9 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
+try: from collections.abc import Mapping
+except ImportError: from collections import Mapping
+
 from .abstract_mixin import AbstractMixin
 
 class MappedElementMixin(AbstractMixin):
@@ -30,6 +33,12 @@ This tag parser mixin provides support for mapping elements for loops.
 :since:      v1.0.0
 :license:    https://www.direct-netware.de/redirect?licenses;mpl2
              Mozilla Public License, v. 2.0
+    """
+
+    __slots__ = [ ]
+    """
+python.org: __slots__ reserves space for the declared variables and prevents
+the automatic creation of __dict__ and __weakref__ for each instance.
     """
 
     def __init__(self):
@@ -59,7 +68,7 @@ Removed the mapped element from the source.
 
         if (source is None): source = self.mapped_data
 
-        if (isinstance(source, dict)):
+        if (isinstance(source, Mapping)):
             key_list = key.split(".", 1)
 
             if (key_list[0] in source):
@@ -83,7 +92,7 @@ Sets the mapped element key to the given value.
 
         if (source is None): source = self.mapped_data
 
-        if (isinstance(source, dict)):
+        if (isinstance(source, Mapping)):
             key_list = key.split(".", 1)
 
             if (len(key_list) > 1):
@@ -121,11 +130,11 @@ given key.
         """
 
         for key in source:
-            if (isinstance(source[key], dict)):
+            if (isinstance(source[key], Mapping)):
                 if (key in target):
                     target[key] = self._update_mapped_element_walker(source[key],
                                                                      ( target[key]
-                                                                       if (isinstance(target[key], dict)) else
+                                                                       if (isinstance(target[key], Mapping)) else
                                                                        { }
                                                                      )
                                                                     )

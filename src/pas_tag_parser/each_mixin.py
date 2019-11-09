@@ -33,6 +33,16 @@ This tag parser mixin provides support for each loop statements.
              Mozilla Public License, v. 2.0
     """
 
+    _mixin_slots_ = MappedElementMixin._mixin_slots_ + SourceValueMixin._mixin_slots_
+    """
+Additional __slots__ used for inherited classes.
+    """
+    __slots__ = [ ]
+    """
+python.org: __slots__ reserves space for the declared variables and prevents
+the automatic creation of __dict__ and __weakref__ for each instance.
+    """
+
     def render_each(self, data, source_key, source, key, mapping_key):
         """
 Checks and renders the each statement.

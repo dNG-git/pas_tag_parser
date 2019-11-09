@@ -17,8 +17,6 @@ https://www.direct-netware.de/redirect?licenses;mpl2
 #echo(__FILEPATH__)#
 """
 
-# pylint: disable=import-error, no-name-in-module
-
 import re
 
 from dpt_runtime.not_implemented_exception import NotImplementedException
@@ -41,6 +39,12 @@ The abstract parser implements methods to find and process "[tags]".
     RE_ESCAPED = re.compile("(\\\\+)$")
     """
 RegExp to identify escaped values
+    """
+
+    __slots__ = [ "_log_handler" ]
+    """
+python.org: __slots__ reserves space for the declared variables and prevents
+the automatic creation of __dict__ and __weakref__ for each instance.
     """
 
     def __init__(self):

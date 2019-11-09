@@ -1,2 +1,4 @@
-git+https://git.direct-netware.de/dpt/builder_suite/@v1.0.0#egg=dpt-builder-suite
-git+https://git.direct-netware.de/dpt/runtime/@v1.0.0#egg=dpt-runtime
+git+https://git.direct-netware.de/dpt/builder_suite/@v1.0.1#egg=dpt-builder-suite[build]
+git+https://git.direct-netware.de/dpt/json/@v1.0.2#egg=dpt-json[json]
+git+https://git.direct-netware.de/dpt/runtime/@v1.0.2#egg=dpt-runtime
+git+https://git.direct-netware.de/dpt/xml/@v1.0.1#egg=dpt-xml[xml]
